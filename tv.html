@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+    <title>吴语电视节目导航</title>
+    <style type="text/css">
+      body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}
+      #head{position:fixed;z-index: 1; bottom: 0%; right: 0%;}
+    </style>
+    <base target = "_blank" />
+    <script>
+// 排序方式(地图上呈“3”字型)：
+//    宣 -> 常 -> 锡 -> 苏 -> 通 -> 沪
+// -> 嘉 -> 湖 -> 杭 -> 绍 -> 甬 -> 舟
+// -> 台 -> 温 -> 丽 -> 饶 -> 衢 -> 金
+    var info = 
+    [
+    /*
+	    {
+	    	"name": "丹阳",
+	    	"longitude":119.59602,
+	    	"latitude":31.994633,
+	    	"items":
+	    	[
+	    		{"name": "我己来哈哈", "url": "http://v.danyang.com/index.php?m=content&c=index&a=lists&catid=129"}
+	    	]
+	    },*/
+	    {
+	    	"name": "常州",
+	    	"longitude": 119.968422,
+	    	"latitude":31.830834,
+	    	"items":
+	    	[
+	    		{"name": "生活369", "url": "http://www.cztv.tv/vod/folder69/folder50/folder61/"},
+			{"name": "今朝蛮开心", "url": "http://www.cztv.tv/vod/folder69/folder50/folder297/"},
+    			{"name": "常州老娘舅","url": "http://www.cztv.tv/vod/folder69/folder50/folder460/"}
+	    	]
+	    },
+	    {
+	    	"name": "无锡",
+	    	"longitude": 120.3066,
+	    	"latitude": 31.5812,
+	    	"items": 
+	    	[
+	    		{"name": "阿福聊斋", "url": "http://v2.thmz.com/folder6/folder42/folder80/"}
+	    	]	    
+	    },
+	    {
+	    	"name": "宜兴",
+	    	"longitude":119.834466,
+	    	"latitude":31.366078,
+	    	"items":
+	    	[
+	    		{"name": "阳羡茶馆(需用IE浏览器)", "url": "http://www.tdcm.cn/db/zdjmyxcg/"}
+	    	]
+	    },
+	    {
+	    	"name": "江阴",
+	    	"longitude":120.274456,
+	    	"latitude":31.912525,
+	    	"items":
+	    	[
+	    		{"name": "阿毛来着", "url": "http://www.ijiangyin.com/portal.php?mod=list&catid=13"}
+	    	]
+	    },
+    	{
+    		"name": "苏州",
+    		"longitude": 120.62873,
+    		"latitude": 31.31269,
+    		"items":
+    		[
+    			{"name": "施斌聊斋", "url": "http://www.csztv.com/wldst/zdjm/sblz/index.shtml"},
+    			{"name": "李刚评话", "url": "http://www.csztv.com/wldst/zdjm/lgph/index.shtml"},
+    			{"name": "苏州电视书场", "url": "http://www.csztv.com/wldst/zdjm/szdssc/index.shtml"}
+    		]
+    	},
+	    {
+	    	"name": "太仓",
+	    	"longitude":121.130865,
+	    	"latitude":31.466757,
+	    	"items":
+	    	[
+	    		{"name": "太仓闲话", "url": "http://www.tcyfw.com/Portal/Html/option/com_content/ItemId/138/"},
+	    		{"name": "娄东戏台", "url": "http://www.tcyfw.com/Portal/Html/option/com_content/ItemId/295/"}
+	    	]
+	    },
+	    {
+	    	"name": "常熟",
+	    	"longitude":120.750669,
+	    	"latitude":31.68214,
+	    	"items":
+	    	[
+	    		{"name": "春来茶馆", "url": "http://www.21cs.cn/tv/program.aspx?p=clcg"}
+	    	]
+	    },
+	    {
+	    	"name": "启东",
+	    	"longitude":121.664785,
+	    	"latitude":31.816017,
+	    	"items":
+	    	[
+	    		{"name": "东疆闲话(需用VLC插件)", "url": "http://www.qidong.gov.cn/col/col2643/"}
+	    	]
+	    },
+	    { 	
+	    	"name": "嘉兴", 
+	    	"longitude": 120.7557, 
+	    	"latitude": 30.7679,
+	    	"items": 
+	    	[
+	    	    {"name": "今朝多看点", "url": "http://www.jiaxingren.com/folder24/folder147/folder150/folder258/"},
+	    	    {"name": "娘舅来咧", "url": "http://www.jiaxingren.com/folder24/folder147/folder150/folder380/"}
+	    	]
+	    },
+	    {	
+	    	"name": "嘉善", 
+	    	"longitude": 120.9299, 
+	    	"latitude": 30.8498,
+	    	"items": 
+	    	[
+	    		{"name": "嘉善闲话", "url": "http://oljs.jsxww.cn/col/col12041/index.html"}
+	    	]
+	    },
+	    {
+	    	"name": "湖州",
+	    	"longitude":120.109602,
+	    	"latitude":30.875564,
+	    	"items":
+	    	[
+	    		{"name": "阿奇讲事体", "url": "http://www.hugd.com/gdzt/ggms/c/ggms_list.shtml"},
+	    		{"name": "12345阿奇在现场", "url": "http://www.hugd.com/gdzt/ggms/f/ggms_list.shtml"}
+	    	]
+	    },
+    	{
+    		"name": "杭州",
+    		"longitude": 120.178212,
+    		"latitude":30.263816,
+    		"items":
+    		[
+    			{"name": "阿六头讲新闻", "url": "http://tv.hoolo.tv/xhmz/altsxw/"},
+    			{"name": "开心茶馆", "url": "http://tv.hoolo.tv/xhmz/kxcg/"},
+			{"name": "我和你说", "url": "http://tv.hoolo.tv/hzsh/whns/"}
+    		]
+    	},
+	    {
+	    	"name": "萧山",
+	    	"longitude":120.272983,
+	    	"latitude":30.200037,
+	    	"items":
+	    	[
+	    		{"name": "阿通哥说新闻", "url":"http://www.xianghunet.com/lanmu/527.html"}
+	    	]
+	    },
+    	{
+    		"name": "绍兴",
+    		"longitude":120.593624,
+    		"latitude": 30.002413,
+    		"items":
+    		[
+    			{"name": "师爷说新闻", "url": "http://www.sxtv.com.cn/folder88/folder50/folder92/"},
+    			{"name": "师母来哉", "url": "http://www.sxtv.com.cn/folder88/folder50/folder96/"},
+    			{"name": "莲花剧场", "url": "http://www.sxtv.com.cn/folder88/folder90/folder101/"}
+    		]
+    	},
+	    {
+	    	"name":"嵊州",
+	    	"longitude":120.831999,
+	    	"latitude":29.587268,
+	    	"items":
+	    	[
+	    		{"name": "越剧大家唱", "url": "http://www.szttkk.com/video/list/4667"}
+	    	]
+	    },
+    	{
+    		"name": "宁波",
+    		"longitude": 121.566974,
+    		"latitude": 29.878981,
+    		"items":
+    		[
+    			{"name": "来发讲啥西", "url": "http://www.nbtv.cn/gbds/ds/NBTV2/235/235.html"},
+    			{"name": "讲大道新闻", "url": "http://www.nbtv.cn/gbds/ds/NBTV3/233/233.html"},
+    			{"name": "得月街", "url": "http://www.nbtv.cn/gbds/ds/NBTV3/243/243.html"}
+    		]
+    	},
+    	{
+	    	"name": "鄞州",
+	    	"longitude":121.5618,
+	    	"latitude":29.825918,
+	    	"items":
+	    	[
+	    		{"name": "桥头老三（需用IE浏览器）", "url": "http://www.nbyztv.com/vodlist.aspx?catid=64"}
+	    	]
+	    },
+		{
+	    	"name": "余姚",
+	    	"longitude":121.163204,
+	    	"latitude":30.044502,
+	    	"items":
+	    	[
+	    		{"name": "姚江桥头", "url": "http://www.yysee.net/column/5183"}
+	    	]
+	    },
+	    {
+	    	"name": "象山",
+	    	"longitude":121.889322,
+	    	"latitude":29.470693,
+	    	"items":
+	    	[
+	    		{"name": "夜到讲白搭", "url": "http://www.xstv.net/vod.asp?action2=0&action=2&keyword=%D2%B9%B5%BD%BD%B2%B0%D7%B4%EE&nodecode=026802700277"}
+	    	]
+	    },
+    	{
+    		"name": "舟山",
+    		"longitude": 122.11406,
+    		"latitude":30.021396,
+    		"items":
+    		[
+    			{"name": "讲畀侬听", "url": "http://www.wifizs.cn/folder3/folder6/folder34/"}
+    		]
+    	},
+	    {
+	    	"name": "台州",
+	    	"longitude":121.417927,
+	    	"latitude":28.661871,
+	    	"items":
+	    	[
+	    		{"name": "阿福讲白搭", "url": "http://www.576tv.com/Cate/8.html"},
+	    		{"name": "小丫讲天气", "url": "http://www.576tv.com/Cate/6.html"}
+	    	]
+	    },
+	    {
+	    	"name": "临海",
+	    	"longitude":121.147681,
+	    	"latitude":28.855408,
+	    	"items":
+	    	[
+	    		{"name": "黄昏闲谈", "url": "http://www.linhaitv.com/vedio/ds/hhxt/"}
+	    	]
+	    },
+	    {
+	    	"name": "天台",
+	    	"longitude":121.022853,
+	    	"latitude":29.147335,
+	    	"items":
+	    	[
+	    		{"name": "天台人讲散(需用IE浏览器)", "url": "http://www.tgzx.net.cn/x_ttsp/body.asp?flid=6"}
+	    	]
+	    },
+	    {
+	    	"name": "黄岩",
+	    	"longitude":121.269887,
+	    	"latitude":28.651665,
+	    	"items":
+	    	[
+	    		{"name": "望黄岩", "url": "http://www.huangyantv.com/tv-89-1.html"}
+	    	]
+	    },
+	    {
+	    	"name": "温岭",
+	    	"longitude":121.383145,
+	    	"latitude":28.389924,
+	    	"items":
+	    	[
+	    		{"name": "婷婷说事", "url": "http://www.wenlingtv.com/ch19/video/ttss/"}
+	    	]
+	    },
+ 		{
+	    	"name": "温州",
+	    	"longitude": 120.697882,
+	    	"latitude": 28.015909,
+	    	"items":
+	    	[
+	    		{"name": "闲事婆和事佬", "url": "http://tv.dhtv.cn/news/xsphsl/"},
+	    		{"name": "百晓讲新闻", "url": "http://tv.dhtv.cn/financial/bxjxw/"}
+	    	]
+	    },
+	    
+	    {
+	    	"name": "瑞安",
+	    	"longitude":120.640121,
+	    	"latitude":27.785206,
+	    	"items":
+	    	[
+	    		{"name": "饭后讲闲谈", "url": "http://www.rabtv.cn/Col/Col217/Index.aspx"}
+	    	]
+	    },
+	    {
+	    	"name":"丽水",
+	    	"longitude":119.925644,
+	    	"latitude":28.462654,
+	    	"items":
+	    	[
+	    		{"name": "老白谈天", "url": "http://www.lsol.com.cn/list-30-1.html"}
+	    	]
+	    },
+ 		{
+	    	"name": "金华",
+	    	"longitude": 119.6528,
+	    	"latitude": 29.1012,
+	    	"items": 
+	    	[
+	    		{"name": "新闻节节棒", "url": "http://tv2.jinhua.com.cn/xwjjb/"}
+	    	]	    
+	    },
+	    {
+	    	"name": "义乌",
+	    	"longitude": 120.076829,
+	    	"latitude": 29.318135,
+	    	"items":
+	    	[
+	    		{"name": "同年哥讲新闻", "url": "http://v.ywcity.cn/folder96/folder106/"}
+	    	]
+	    },
+	    {
+	    	"name": "永康",
+	    	"longitude": 120.036405,
+	    	"latitude":28.900763,
+	    	"items":
+	    	[
+	    		{"name": "西津茶馆", "url": "http://www.ykntv.com/list_294_1.html"}
+	    	]
+	    },
+	    {
+	    	"name":"东阳",
+	    	"longitude":120.242333,
+	    	"latitude":29.29467,
+	    	"items":
+	    	[
+	    		{"name": "东东腔", "url": "http://www.dybtv.com/web/adv/tv/folder57/"}
+	    	]
+	    },
+	    {
+	    	"name": "兰溪",
+	    	"longitude":119.475432,
+	    	"latitude":29.21028,
+	    	"items":
+	    	[
+	    		{"name": "故事兰溪", "url": "http://video.lxzc.net/kandianshi/gushilanxi/"}
+	    	]
+	    },
+	    {
+	    	"name": "武义",
+	    	"longitude":119.822896,
+	    	"latitude":28.896178,
+	    	"items":
+	    	[
+	    		{"name": "武话八门", "url": "http://www.wycntv.com/list_371_1.html"}
+	    	]
+	    }
+	];
+    </script>
+</head>
+<body>
+<button id = "head" >关于</button>
+    <script>
+    	var sta_count = info.length;
+    	var prog_count = (function() {
+    		var ret = 0;
+    		for (var i = 0; i != info.length; ++i)
+    		{
+    			ret += info[i]["items"].length;
+    		}
+    		return ret;
+    	})();
+    	document.getElementById("head").onclick = function(){alert(
+    	"2016年12月25日更新,共收录" 
+    	+ sta_count + "个电视台"
+    	+ prog_count + "个吴语节目"
+    	);};
+    </script>
+    <div id="allmap">	</div>
+</body>
+</html>
+ 
+<script type = "text/javascript" >
+var map = new BMap.Map("allmap"); // 创建Map实例
+map.centerAndZoom("浙江省", 8); // 初始化地图,设置中心点坐标和地图级别。
+map.addControl(new BMap.NavigationControl()); //添加平移缩放控件
+map.enableScrollWheelZoom(); //启用滚轮放大缩小
+var infoWindow = new BMap.InfoWindow(""); //创建信息窗口
+for (var i = 0; i != info.length; ++i)
+{
+	createMarker(info[i]);
+}
+function createMarker(info){
+	var lng = info['longitude'];
+	var lat = info['latitude'];
+	var menu = "<ul>";
+	for (var i = 0; i != info['items'].length; ++i)
+	{
+		menu += "<li><a href = \"" + info['items'][i]['url'] + "\">" + info['items'][i]['name'] + "</a></li>";
+	}
+	menu += "</ul>";
+
+    var marker = new BMap.Marker(new BMap.Point(lng, lat)); // 创建标注
+    map.addOverlay(marker); // 将标注添加到地图中
+	var ls={
+		backgroundColor :"transparent",
+		border:0,
+		textAlign: "center"
+	};
+	var label = new BMap.Label(i);
+	label.setStyle(ls);
+    marker.setLabel(label);
+    
+    marker.addEventListener("click",
+    function() {
+    	infoWindow.setTitle(info['name']);
+        infoWindow.setContent(menu);
+        this.openInfoWindow(infoWindow);
+    }); //创建信息窗口事件
+}
+</script>
+
+</html>

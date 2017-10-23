@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+    <title>吴语歌曲导航</title>
+    <style type="text/css">
+      body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;}
+      #head{position:fixed;z-index: 1; bottom: 0%; right: 0%;}
+    </style>
+    <base target = "_blank" />
+    <script>
+// 排序方式(地图上呈“3”字型)：
+//    宣 -> 常 -> 锡 -> 苏 -> 通 -> 沪
+// -> 嘉 -> 湖 -> 杭 -> 绍 -> 甬 -> 舟
+// -> 台 -> 温 -> 丽 -> 饶 -> 衢 -> 金
+//{"name": "", "url": ""}
+//{"name":"","longitude":,"latitude":,"items":[]},
+var info =  [
+	{"name":"泾县","longitude":118.427361,"latitude":30.691879,"items":[
+		{"name": "红尘情歌", "url": "http://www.bilibili.com/video/av7744192/"}
+	]},
+    {"name":"高淳","longitude":118.884059,"latitude":31.334638,"items":[
+    	{"name": "猪之歌", "url": "http://www.bilibili.com/video/av7758079/"}
+    ]},
+    //{"name": "丹阳","longitude":119.59602,"latitude":31.994633,"items":[
+    //]},
+    {"name":"新桥","longitude":119.82074,"latitude":32.082816,"items":[
+    	{"name": "天各一方", "url": "http://www.bilibili.com/video/av8016600/"}
+    ]},
+    {"name":"建山","longitude":119.719699,"latitude":32.060954,"items":[
+    	{"name": "今夜无眠", "url": "http://www.bilibili.com/video/av7289886/"}
+    ]},
+    {"name": "常州","longitude": 119.968422,"latitude":31.830834,"items":[
+    	{"name": "生活369", "url": "http://www.bilibili.com/video/av6680710/"}
+    	,{"name": "白天鹅你不是我的菜", "url": "http://www.bilibili.com/video/av6679359/"}
+    	,{"name": "常州", "url": "http://www.bilibili.com/video/av6045738/"}
+    	,{"name": "开不了口", "url": "http://www.bilibili.com/video/av6391405/"}
+    ]},
+    {"name":"溧阳","longitude":119.497242,"latitude":31.43455,"items":[
+    	{"name": "溧阳爱情故事", "url": "http://www.bilibili.com/video/av7651223/"}
+    ]},
+    {"name": "无锡","longitude": 120.3066,"latitude": 31.5812,"items":[
+    	{"name": "你是我生命的四分之三", "url": "http://www.bilibili.com/video/av6654464/"}
+    	,{"name": "夜空", "url": "http://www.bilibili.com/video/av6062831/"}
+    	,{"name": "键式情歌", "url": "http://www.bilibili.com/video/av6174352/"}
+    	,{"name": "生命要继续", "url": "http://www.bilibili.com/video/av6370368/"}
+    	,{"name": "哪会", "url": "http://www.bilibili.com/video/av5813418/"}
+    ]},
+    {"name": "宜兴","longitude":119.834466,"latitude":31.366078,"items":[
+    	{"name": "勒宜兴", "url": "http://www.bilibili.com/video/av9033539/"}
+    	,{"name": "童年歌曲集", "url": "http://www.bilibili.com/video/av6576650/"}
+    	,{"name": "欢喜你", "url": "http://www.bilibili.com/video/av6063228/"}
+    	,{"name": "充煤气非", "url": "http://www.bilibili.com/video/av6108390/"}
+    	,{"name": "你到宜兴街上买把茶壶", "url": "http://www.bilibili.com/video/av5614357/"}
+   	]},
+   	{"name": "江阴","longitude":120.277367,"latitude":31.912785,"items":[
+   		{"name": "给我一介吻", "url": "http://www.bilibili.com/video/av7774817/"}
+   		,{"name": "童年", "url": "http://www.bilibili.com/video/av8000224/"}
+    ]},
+    {"name":"靖江","longitude":120.277403,"latitude":32.027715,"items":[
+    	{"name": "老街", "url": "http://www.bilibili.com/video/av7730779/"}
+    ]},
+    {"name": "苏州","longitude": 120.62873,"latitude": 31.31269,"items":[
+    	{"name": "姑苏城", "url": "http://www.bilibili.com/video/av1857547/"}
+	    ,{"name": "轻轻地告诉你", "url": "http://www.bilibili.com/video/av7794700/"}
+	    ,{"name": "爱我的人和我爱的人", "url": "http://www.bilibili.com/video/av7096574/"}
+	    ,{"name": "童年", "url": "http://www.bilibili.com/video/av6941058/"}
+	    ,{"name": "我为你伤心", "url": "http://www.bilibili.com/video/av6920807/"}
+	    ,{"name": "加速度", "url": "http://www.bilibili.com/video/av6828818/"}
+	    ,{"name": "海浪", "url": "http://www.bilibili.com/video/av6605590/"}
+	    ,{"name": "祝福倷", "url": "http://www.bilibili.com/video/av6063982/"}
+	    ,{"name": "不管有多苦", "url": "http://www.bilibili.com/video/av6219459/"}
+	    ,{"name": "自家放自家一个假", "url": "http://www.bilibili.com/video/av9156858/"}
+	    ,{"name": "无锡景", "url": "http://www.bilibili.com/video/av2269107/"}
+	    ,{"name": "摆渡人之歌", "url": "http://www.bilibili.com/video/av2327233/"}
+	    ,{"name": "长远弗见", "url": "http://www.bilibili.com/video/av3817261/"}
+	]},
+	//{"name":"吴江","longitude":120.641432,"latitude":31.159373,"items":[	
+	//]},
+	{"name":"盛泽","longitude":120.661123,"latitude":30.903716,"items":[
+		{"name": "吾哩都是盛泽人", "url": "https://v.qq.com/x/page/o03281he53q.html"}
+		,{"name": "老爸老爸， 我爱你", "url": "http://www.bilibili.com/video/av6884653/"}
+	]},
+	{"name":"芦墟","longitude":120.846767,"latitude":31.015895,"items":[
+		{"name": "五姑娘", "url": "http://v.youku.com/v_show/id_XMTU0NzI3NzIxMg=="}
+	]},
+	{"name":"张家港","longitude":120.548799,"latitude":31.86462,"items":[
+		{"name": "西门小姐", "url": "http://www.bilibili.com/video/av7887954/"}
+		,{"name": "港城活雷锋", "url": "http://www.bilibili.com/video/av7145558/"}
+		,{"name": "讨债歌", "url": "http://www.bilibili.com/video/av6248105/"}
+	]},
+	//{"name": "太仓","longitude":121.130865,"latitude":31.466757,"items":[
+    //]},
+    {"name": "常熟","longitude":120.750669,"latitude":31.68214,"items":[
+    	{"name": "我的心里只有你没有他", "url":"http://www.bilibili.com/video/av7760485/"}
+    	,{"name": "菊花台", "url": "http://www.bilibili.com/video/av6757335/"}
+    ]},
+    {"name": "启东","longitude":121.664785,"latitude":31.816017,"items":[
+    	{"name": "宁夏", "url": "http://www.bilibili.com/video/av7056627/"}
+    ]},
+    {"name": "上海", "longitude":121.499098,"latitude":31.248529,"items":[
+    	{"name": "上海谣","url":"http://www.bilibili.com/video/av7830059/"}
+    	,{"name": "认真的雪", "url": "http://www.bilibili.com/video/av9069753/"}
+    	,{"name": "侬B样最帅", "url": "http://www.bilibili.com/video/av7610628/"}
+    	,{"name": "勿搭界", "url": "http://www.bilibili.com/video/av7272473/"}
+    	,{"name": "褪红", "url": "http://www.bilibili.com/video/av7177241/"}
+    	,{"name": "㑚辣啥地方", "url": "http://www.bilibili.com/video/av7022539/"}
+    	,{"name": "覅去想伊", "url": "http://www.bilibili.com/video/av6998388/"}
+    	,{"name": "英国人垃上海", "url": "http://www.bilibili.com/video/av6886722/"}
+    	,{"name": "因味爱", "url": "http://www.bilibili.com/video/av6886010/"}
+    	,{"name": "我爱你", "url": "http://www.bilibili.com/video/av6852813/"}
+    	,{"name": "无所谓", "url": "http://www.bilibili.com/video/av6820009/"}
+    	,{"name": "春风吹", "url": "http://www.bilibili.com/video/av6733982/"}
+    	,{"name": "小小洞房", "url": "http://www.bilibili.com/video/av6666616/"}
+    	,{"name": "侬戆卵了伐", "url": "http://www.bilibili.com/video/av6592826/"}
+    	,{"name": "风雨行", "url": "http://www.bilibili.com/video/av6562491/"}
+    	,{"name": "上海人灵光", "url": "http://www.bilibili.com/video/av6525673/"}
+    	,{"name": "秋天别来", "url": "http://www.bilibili.com/video/av6497218/"}
+    	,{"name": "If You", "url": "http://www.bilibili.com/video/av6029274"}
+    	,{"name": "挖袋袋", "url": "http://www.bilibili.com/video/av6030514/"}
+    	,{"name": "㑚辣啥地方", "url": "http://www.bilibili.com/video/av6061319/"}
+    	,{"name": "老地方", "url": "http://www.bilibili.com/video/av6092815/"}
+    	,{"name": "喜欢上海话", "url": "http://www.bilibili.com/video/av6092855/"}
+    	,{"name": "谢谢侬", "url": "http://www.bilibili.com/video/av6092867/"}
+    	,{"name": "扭腰", "url": "http://www.bilibili.com/video/av6133656/"}
+    	,{"name": "撩菜", "url": "http://www.bilibili.com/video/av6233721/"}
+    	,{"name": "得不到的爱情", "url": "http://www.bilibili.com/video/av6312297/"}
+    	,{"name": "Uptown Funk", "url": "http://www.bilibili.com/video/av6312739/"}
+    	,{"name": "Nobody", "url": "http://www.bilibili.com/video/av6328850/"}
+    	,{"name": "江南", "url": "http://www.bilibili.com/video/av7065802/"}
+    	,{"name": "靠近一点点", "url": "http://www.bilibili.com/video/av6971004/"}
+    	,{"name": "起床歌", "url": "http://www.bilibili.com/video/av5795634/"}
+    ]},
+    {"name": "嘉兴","longitude": 120.7557,"latitude": 30.7679,"items":[
+    	{"name": "回弗去小辰光","url": "http://www.bilibili.com/video/av6036423/"}
+    	,{"name": "寻死啊", "url": "http://www.bilibili.com/video/av6619377/"}
+    	,{"name": "嘉兴小姐妹", "url": "http://www.bilibili.com/video/av6061404/"}
+    	,{"name": "嘉兴style", "url": "http://v.youku.com/v_show/id_XNTAwNjI1MzM2.html"}
+    ]},
+    {"name": "嘉善","longitude": 120.9299,"latitude": 30.8498,"items": [
+    	{"name": "一半", "url": "http://www.bilibili.com/video/av8585937/"}
+    	,{"name": "嘉善style", "url": "http://v.youku.com/v_show/id_XNDY5NTk5MjY4.html"}
+    ]},
+    {"name":"平湖","longitude":121.032554,"latitude":30.705092,"items":[
+    	{"name": "磨剪刀", "url": "http://www.bilibili.com/video/av2401965/"}
+    ]},
+    {"name":"新仓","longitude":121.195561,"latitude":30.73164,"items":[
+    	{"name": "新仓style", "url": "http://v.youku.com/v_show/id_XNDc3Nzk1NjYw.html"}
+    ]},
+    {"name":"乍浦","longitude":121.10034,"latitude":30.60963,"items":[
+    	{"name": "乍浦style", "url": "http://www.tudou.com/programs/view/nKNu53erSbM/"}
+    ]},
+    {"name": "桐乡","longitude":120.558105,"latitude":30.634022,"items":[
+    	{"name": "挖荸荠", "url": "http://www.bilibili.com/video/av8497635/"}
+    	,{"name": "好想你", "url": "http://www.bilibili.com/video/av7717806/"}
+   	]},
+   	//{"name": "海宁","longitude":120.703271,"latitude":30.53721,"items":[
+   	//]},
+   	{"name": "黄湾","longitude":120.802103,"latitude":30.372634,"items":[
+   		{"name": "乘风凉", "url": "http://www.bilibili.com/video/av5917453/"}
+   	]},
+    {"name": "湖州","longitude":120.109602,"latitude":30.875564,"items":[
+    	{"name": "覅讲", "url": "http://www.bilibili.com/video/av7970320/"}
+    	,{"name": "湖州赞", "url": "http://www.bilibili.com/video/av7623403/"}
+    	,{"name": "我们湖州", "url": "http://www.bilibili.com/video/av6542651/"}
+    ]},
+    {"name":"长兴","longitude":119.921997,"latitude":31.028537,"items":[
+    	{"name": "恭喜发财", "url": "http://www.bilibili.com/video/av8226982/"}
+    ]},
+    {"name":"德清","longitude":119.985669,"latitude":30.546728,"items":[
+    	{"name": "彩虹", "url": "http://www.bilibili.com/video/av8132116/"}
+    ]},
+	{"name": "杭州","longitude": 120.178212,"latitude":30.263816,"items":[
+		{"name": "我等到花儿也谢了", "url": "http://www.bilibili.com/video/av7667803/"}
+		,{"name": "简单爱", "url": "http://www.bilibili.com/video/av7641814/"}
+		,{"name": "打麻将", "url": "http://www.bilibili.com/video/av6467499/"}
+		,{"name": "杭州是个好地方", "url": "http://www.bilibili.com/video/av6443240/"}
+		,{"name": "爱之初体验", "url": "http://www.bilibili.com/video/av6078757/"}
+	]},
+	{"name": "余杭","longitude":119.953618,"latitude":30.265734,"items":[
+		{"name": "一人我饮酒醉", "url": "http://www.bilibili.com/video/av8839708/"}
+	]},
+    //{"name": "萧山","longitude":120.272983,"latitude":30.200037,"items":[
+    //]},
+	{"name": "绍兴","longitude":120.593624,"latitude": 30.002413,"items":[
+		{"name": "一个人的天荒地老", "url": "http://www.bilibili.com/video/av7816759/"}
+		,{"name": "戒赌歌", "url": "http://www.bilibili.com/video/av8862267/"}
+		,{"name": "再见", "url": "http://www.bilibili.com/video/av7230353/"}
+		,{"name": "童年", "url": "http://www.bilibili.com/video/av6063054/"}
+		,{"name": "吉祥三宝", "url": "http://www.bilibili.com/video/av6120938/"}
+		,{"name": "讨老嬷", "url": "http://www.bilibili.com/video/av6406420/"}
+	]},
+	{"name":"上虞","longitude":120.874165,"latitude":30.027931,"items":[
+		{"name": "打荞麦", "url": "http://www.bilibili.com/video/av8188177/"}
+		,{"name": "好想你", "url": "http://www.bilibili.com/video/av8109292/"}
+	]},
+	{"name":"诸暨","longitude":120.247759,"latitude":29.715926,"items":[
+		{"name": "对尔介好还没良心", "url": "http://www.bilibili.com/video/av6870667/"}
+	]},
+    //{"name":"嵊州","longitude":120.831999,"latitude":29.587268,"items":[
+    //]},
+	{"name": "宁波","longitude": 121.566974,"latitude": 29.878981,"items":[
+		{"name": "宁波乡下头夜到", "url": "http://www.bilibili.com/video/av9000010/"}
+		,{"name": "忘记他", "url": "http://www.bilibili.com/video/av6694989/"}
+		,{"name": "宁波小娘", "url": "http://www.bilibili.com/video/av6063917/"}
+	]},
+	{"name": "慈溪","longitude": 121.273264,"latitude": 30.17589,"items":[
+		{"name": "外婆谣", "url": "http://www.bilibili.com/video/av1856580/"}
+		,{"name": "家乡就在观海卫", "url": "http://www.bilibili.com/video/av7599766/"}
+		,{"name": "三月情", "url": "http://www.bilibili.com/video/av7107318/"}
+	]},
+	{"name": "三北", "longitude":121.509195,"latitude":30.10029,"items":[
+		{"name": "江南老歌", "url": "http://www.bilibili.com/video/av2553547/"}
+	]},
+	//{"name": "鄞州","longitude":121.5618,"latitude":29.825918,"items":[
+    //]},
+	{"name": "余姚","longitude":121.163204,"latitude":30.044502,"items":[
+		{"name": "余姚杨梅", "url": "http://www.bilibili.com/video/av6805966/"}
+		,{"name": "一定要爱你", "url": "http://www.bilibili.com/video/av6747256/"}
+		,{"name": "恰似侬个温柔", "url": "http://www.bilibili.com/video/av6044711/"}
+    ]},
+    //{"name": "象山","longitude":121.889322,"latitude":29.470693,"items":[
+    //]},
+	{"name": "舟山","longitude": 122.11406,"latitude":30.021396,"items":[
+		{"name": "阿拉舟山人", "url": "http://www.bilibili.com/video/av6899710/"}
+		,{"name": "我想我不够好", "url": "http://www.bilibili.com/video/av6063167/"}
+		,{"name": "小薇", "url": "http://www.bilibili.com/video/av6196431/"}
+		,{"name": "千里之外", "url": "http://www.bilibili.com/video/av3762316/"}
+	]},
+    {"name": "台州","longitude":121.417927,"latitude":28.661871,"items":[
+    	{"name": "彩票歌", "url": "http://www.bilibili.com/video/av7981056/"}
+    	,{"name": "中意尔", "url": "http://www.bilibili.com/video/av6163094/"}
+    ]},
+    {"name":"仙居","longitude":120.732736,"latitude":28.861593,"items":[
+    	{"name": "南山南", "url": "http://www.bilibili.com/video/av8211776/"}
+    ]},
+    //{"name": "临海","longitude":121.147681,"latitude":28.855408,"items":[
+    //]},
+    //{"name": "天台","longitude":121.022853,"latitude":29.147335,"items":[
+    //]},
+    //{"name": "黄岩","longitude":121.269887,"latitude":28.651665,"items":[
+    //]},
+    //{"name": "温岭","longitude":121.383145,"latitude":28.389924,"items":[
+    //]},
+	{"name": "温州","longitude": 120.697882,"latitude": 28.015909,"items":[
+		{"name": "画心", "url": "http://www.bilibili.com/video/av7408202/"}
+		,{"name": "尽挥洒最终版", "url": "http://www.bilibili.com/video/av7223822/"}
+		,{"name": "你是我的意中人", "url": "http://www.bilibili.com/video/av6981746/"}
+		,{"name": "童年", "url": "http://www.bilibili.com/video/av6828879/"}
+		,{"name": "我们都会错", "url": "http://www.bilibili.com/video/av6631404/"}
+		,{"name": "倒霉蛋", "url": "http://www.bilibili.com/video/av6062451/"}
+		,{"name": "再也不见", "url": "http://www.bilibili.com/video/av7935973/"}
+    ]},
+    {"name":"乐清","longitude":120.975997,"latitude":28.124996,"items":[
+    	{"name": "祝你一路顺风", "url": "http://www.bilibili.com/video/av6788945/"}
+    ]},
+    {"name": "瑞安","longitude":120.640121,"latitude":27.785206,"items":[
+    	{"name": "咱们屯里的人", "url": "http://www.bilibili.com/video/av6711441/"}
+    ]},
+    {"name":"金乡","longitude":120.61822,"latitude":27.433054,"items":[
+    	{"name": "老鼠爱大米", "url": "http://www.bilibili.com/video/av7924019/"}
+    ]},
+    {"name":"青田","longitude":120.295656,"latitude":28.145893,"items":[
+    	{"name": "别说我的眼泪你无所谓", "url": "http://www.bilibili.com/video/av7209928/"}
+    ]},
+    {"name":"丽水","longitude":119.925644,"latitude":28.462654,"items":[
+    	{"name": "为什么呢", "url": "http://www.bilibili.com/video/av6433666/"}
+    	,{"name": "简单爱", "url": "http://www.bilibili.com/video/av6379479/"}
+    ]},
+	{"name":"玉山","longitude":118.250502,"latitude":28.67824,"items":[
+		{"name": "你怎么说", "url": "http://www.bilibili.com/video/av7877397/"}
+	]},
+    {"name":"衢州","longitude":118.871052,"latitude":28.971682,"items":[
+    	{"name": "光棍歌", "url": "http://www.bilibili.com/video/av7062649/"}
+    	,{"name": "那一天", "url": "http://www.bilibili.com/video/av6642816/"}
+    	,{"name": "我呒铜钿我覅面", "url": "http://www.bilibili.com/video/av6185021/"}
+    	,{"name": "童话", "url": "http://www.bilibili.com/video/av6258439/"}
+    ]},
+	{"name": "金华","longitude": 119.6528,"latitude": 29.1012,"items": [
+		{"name": "活见鬼", "url": "http://www.bilibili.com/video/av6723935/"}
+		,{"name": "会呼吸的痛", "url": "http://www.bilibili.com/video/av6871032/"}
+    ]},
+    {"name": "义乌","longitude": 120.076829,"latitude": 29.318135,"items":[
+    	{"name": "中国人", "url": "http://www.bilibili.com/video/av6965536/"}
+    ]},
+    {"name": "永康","longitude": 120.036405,"latitude":28.900763,"items":[
+    	{"name": "我的滑板鞋", "url": "http://www.bilibili.com/video/av6359821/"}
+    ]},
+    //{"name":"东阳","longitude":120.242333,"latitude":29.29467,"items":[
+    //]},
+    {"name": "兰溪","longitude":119.475432,"latitude":29.21028,"items":[
+    	{"name": "小上海", "url": "http://www.bilibili.com/video/av8148758/"}
+    	,{"name": "黄昏", "url": "http://www.bilibili.com/video/av6954784/"}
+    ]},
+    //{"name": "武义","longitude":119.822896,"latitude":28.896178,"items":[
+    //]},
+    {"name":"浦江","longitude":119.895371,"latitude":29.468303,"items":[
+    	{"name": "小苹果", "url": "http://www.bilibili.com/video/av8168723/"}
+    ]},
+];
+</script>
+</head>
+<body>
+<button id = "head" >关于</button>
+    <script>
+    	var sta_count = info.length;
+    	var prog_count = (function() {
+    		var ret = 0;
+    		for (var i = 0; i != info.length; ++i)
+    		{
+    			ret += info[i]["items"].length;
+    		}
+    		return ret;
+    	})();
+    	var prog_list = (function(){
+    		var ret = "";
+    		for (var i = 0; i != info.length; ++i)
+    		{
+    			ret += info[i]["name"] + ": ";
+    			for (var j = 0; j != info[i]["items"].length; ++j)
+    			{
+    				ret += info[i]["items"][j]["name"] + ";";
+    			}
+    			ret += "\n";
+    		}
+    		return ret;
+    	})();
+    	document.getElementById("head").onclick = function(){alert(
+    	"2017年3月17更新,共收录" 
+    	+ sta_count + "个地点"
+    	+ prog_count + "个吴语歌曲" + "\n" + prog_list
+    	);};
+    </script>
+    <div id="allmap">	</div>
+</body>
+</html>
+ 
+<script type = "text/javascript" >
+var map = new BMap.Map("allmap"); // 创建Map实例
+map.centerAndZoom("浙江省", 8); // 初始化地图,设置中心点坐标和地图级别。
+map.addControl(new BMap.NavigationControl()); //添加平移缩放控件
+map.enableScrollWheelZoom(); //启用滚轮放大缩小
+var infoWindow = new BMap.InfoWindow(""); //创建信息窗口
+for (var i = 0; i != info.length; ++i)
+{
+	createMarker(info[i]);
+}
+function createMarker(info){
+	var lng = info['longitude'];
+	var lat = info['latitude'];
+	var menu = (info['items'].length > 18 
+		? "<div style='height:400px;overflow-y:auto;'><ul>"
+		: "<div><ul>"
+	);
+		
+	for (var i = 0; i != info['items'].length; ++i)
+	{
+		menu += "<li><a href = \"" + info['items'][i]['url'] + "\">" + info['items'][i]['name'] + "</a></li>";
+	}
+	menu += "</ul></div>";
+
+    var marker = new BMap.Marker(new BMap.Point(lng, lat)); // 创建标注
+    map.addOverlay(marker); // 将标注添加到地图中
+	var ls={
+		backgroundColor :"transparent",
+		border:0,
+		textAlign: "center"
+	};
+	var label = new BMap.Label(i);
+	label.setStyle(ls);
+    marker.setLabel(label);
+    
+    marker.addEventListener("click",
+    function() {
+    	infoWindow.setTitle(info['name']);
+        infoWindow.setContent(menu);
+        this.openInfoWindow(infoWindow);
+    }); //创建信息窗口事件
+}
+</script>
+
+</html>
